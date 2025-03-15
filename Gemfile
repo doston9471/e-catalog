@@ -17,3 +17,5 @@ group :development, :test do
 end
 
 gem "mongoid"
+
+gem "ostruct", "~> 0.6.1"
