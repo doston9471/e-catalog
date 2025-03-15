@@ -4,6 +4,7 @@ class ProductLine
   field :name, type: String
   field :category, type: String, default: "Mobile Phones"
   belongs_to :brand
+  has_many :models, dependent: :destroy
 
   validates :name, presence: true
 end

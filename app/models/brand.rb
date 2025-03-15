@@ -3,6 +3,7 @@ class Brand
   include Mongoid::Timestamps
   field :name, type: String
   field :description, type: String
+  has_many :product_lines, dependent: :destroy
 
   validates :name, presence: true, uniqueness: true
 end
