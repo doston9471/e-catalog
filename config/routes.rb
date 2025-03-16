@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :brands
       resources :product_lines
       resources :models
+      resources :shops
     end
   end
 end
