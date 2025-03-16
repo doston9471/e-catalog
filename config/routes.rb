@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :product_lines
       resources :models
       resources :shops
+      resources :items
     end
   end
 end
