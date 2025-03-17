@@ -102,7 +102,7 @@ The response includes:
   "data": [
     {"id": "1", "name": "Apple", "description": "Consumer electronics company"},
     {"id": "2", "name": "Samsung", "description": "Tech conglomerate"},
-    ...,
+
     {"id": "10", "name": "Sony", "description": "Japan's electronics company"}
   ],
   "meta": {
@@ -172,7 +172,7 @@ curl -X PATCH http://localhost:3000/api/v1/product_lines/PRODUCT_LINE_ID \
   -H "Content-Type: application/json" \
   -d '{"product_line": {"category": "Mobile Devices"}}'
 
-# Delete a product_line
+# Delete a product line
 curl -X DELETE http://localhost:3000/api/v1/product_lines/PRODUCT_LINE_ID
 ```
 
