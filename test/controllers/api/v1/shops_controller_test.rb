@@ -38,8 +38,8 @@ class Api::V1::ShopsControllerTest < ActionDispatch::IntegrationTest
     get api_v1_shop_url(@shop)
     assert_response :success
     response_body = JSON.parse(response.body)
-    assert_equal @shop.name, response_body["name"]
-    assert_includes response_body.keys, "items"
+    assert_equal @shop.name, response_body["data"]["name"]
+    assert_includes response_body["data"].keys, "items"
   end
 
   test "should update shop" do
