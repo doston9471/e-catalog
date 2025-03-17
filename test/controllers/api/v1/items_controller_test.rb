@@ -45,8 +45,8 @@ class Api::V1::ItemsControllerTest < ActionDispatch::IntegrationTest
     get api_v1_item_url(@item)
     assert_response :success
     response_body = JSON.parse(response.body)
-    assert_equal @item.shop_id.to_s, response_body["shop_id"]
-    assert_equal @item.model_id.to_s, response_body["model_id"]
+    assert_equal @item.shop_id.to_s, response_body["data"]["shop_id"]
+    assert_equal @item.model_id.to_s, response_body["data"]["model_id"]
   end
 
   test "should update item" do

@@ -44,8 +44,8 @@ class Api::V1::ProductLinesControllerTest < ActionDispatch::IntegrationTest
     get api_v1_product_line_url(@product_line)
     assert_response :success
     response_body = JSON.parse(response.body)
-    assert_equal @product_line.name, response_body["name"]
-    assert_includes response_body.keys, "models"
+    assert_equal @product_line.name, response_body["data"]["name"]
+    assert_includes response_body["data"].keys, "models"
   end
 
   test "should update product line" do

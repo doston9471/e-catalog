@@ -18,7 +18,7 @@ module Api
       end
 
       def show
-        render json: BrandSerializer.new(@brand).as_json
+        render json: { data: BrandSerializer.new(@brand).as_json }
       end
 
       def create

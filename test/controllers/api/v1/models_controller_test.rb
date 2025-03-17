@@ -49,10 +49,10 @@ class Api::V1::ModelsControllerTest < ActionDispatch::IntegrationTest
     get api_v1_model_url(@model)
     assert_response :success
     response_body = JSON.parse(response.body)
-    assert_equal @model.name, response_body["name"]
-    assert_includes response_body.keys, "items"
-    assert response_body["items"].is_a?(Array)
-    assert_equal 1, response_body["items"].size
+    assert_equal @model.name, response_body["data"]["name"]
+    assert_includes response_body["data"].keys, "items"
+    assert response_body["data"]["items"].is_a?(Array)
+    assert_equal 1, response_body["data"]["items"].size
   end
 
   test "should update model" do

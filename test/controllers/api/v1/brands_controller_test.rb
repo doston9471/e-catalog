@@ -38,8 +38,8 @@ class Api::V1::BrandsControllerTest < ActionDispatch::IntegrationTest
     get api_v1_brand_url(@brand)
     assert_response :success
     response_body = JSON.parse(response.body)
-    assert_equal @brand.name, response_body["name"]
-    assert_includes response_body.keys, "product_lines"
+    assert_equal @brand.name, response_body["data"]["name"]
+    assert_includes response_body["data"].keys, "product_lines"
   end
 
   test "should update brand" do

@@ -18,7 +18,7 @@ module Api
       end
 
       def show
-        render json: ProductLineSerializer.new(@product_line).as_json
+        render json: { data: ProductLineSerializer.new(@product_line).as_json }
       end
 
       def create
