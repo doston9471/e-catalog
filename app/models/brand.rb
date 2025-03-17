@@ -6,4 +6,6 @@ class Brand
   has_many :product_lines, dependent: :destroy
 
   validates :name, presence: true, uniqueness: true
+
+  index({ name: 1 })
 end

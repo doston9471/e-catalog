@@ -8,4 +8,7 @@ class Item
 
   validates :shop_id, :model_id, presence: true
   validates :prices, presence: true
+
+  index({ shop_id: 1 })
+  index({ model_id: 1 })
 end

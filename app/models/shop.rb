@@ -7,4 +7,6 @@ class Shop
 
   validates :name, presence: true, uniqueness: true
   validates :website_url, presence: true
+
+  index({ name: 1 })
 end

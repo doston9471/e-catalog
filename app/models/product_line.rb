@@ -7,4 +7,8 @@ class ProductLine
   has_many :models, dependent: :destroy
 
   validates :name, presence: true
+
+  index({ brand_id: 1 })
+  index({ name: 1 })
+  index({ category: 1 })
 end

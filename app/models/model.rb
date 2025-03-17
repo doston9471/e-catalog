@@ -6,4 +6,6 @@ class Model
   belongs_to :product_line
 
   validates :name, presence: true
+
+  index({ product_line_id: 1 })
 end
