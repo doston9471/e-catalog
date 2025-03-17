@@ -23,7 +23,7 @@ module Api
       private
 
       def item_params
-        params.require(:item).permit(:shop_id, :model_id, characteristics: {}, price: {})
+        params.require(:item).permit(:shop_id, :model_id, characteristics: {}, prices: [ :amount, :currency ])
       end
     end
   end
