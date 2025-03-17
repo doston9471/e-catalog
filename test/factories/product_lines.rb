@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :product_line do
-    sequence(:name) { |n| "Product Line #{n}" }
+    sequence(:name) { |n| "Product Line #{n} #{Time.current.to_i}" }
     category { "Mobile Phones" }
-    brand { create(:brand) } # Assumes a Brand factory exists
+    association :brand
   end
 end

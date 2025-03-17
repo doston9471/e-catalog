@@ -4,8 +4,16 @@ module Api
       before_action :set_product_line, only: [ :show, :update, :destroy ]
 
       def index
-        @product_lines = ProductLine.all
-        render json: @product_lines
+        begin
+          result = Paginator.paginate(
+            ProductLine.all,
+            page: params[:page],
+            per_page: params[:per_page]
+          )
+          render json: result
+        rescue => e
+          render json: { error: "Pagination error: #{e.message}" }, status: :unprocessable_entity
+        end
       end
 
       def show

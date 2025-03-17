@@ -4,8 +4,16 @@ module Api
       before_action :set_brand, only: [ :show, :update, :destroy ]
 
       def index
-        @brands = Brand.all
-        render json: @brands
+        begin
+          result = Paginator.paginate(
+            Brand.all,
+            page: params[:page],
+            per_page: params[:per_page]
+          )
+          render json: result
+        rescue => e
+          render json: { error: "Pagination error: #{e.message}" }, status: :unprocessable_entity
+        end
       end
 
       def show

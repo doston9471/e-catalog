@@ -4,12 +4,20 @@ module Api
       before_action :set_model, only: [ :show, :update, :destroy ]
 
       def index
-        @models = Model.all
-        render json: @models
+        begin
+          result = Paginator.paginate(
+            Model.all,
+            page: params[:page],
+            per_page: params[:per_page]
+          )
+          render json: result
+        rescue => e
+          render json: { error: "Pagination error: #{e.message}" }, status: :unprocessable_entity
+        end
       end
 
       def show
-        render json: @model
+        render json: @model, include: :items
       end
 
       def create
@@ -17,7 +25,7 @@ module Api
         if @model.save
           render json: @model, status: :created
         else
-          render json: @model.errors, status: :unprocessable_entity
+          render json: { errors: @model.errors }, status: :unprocessable_entity
         end
       end
 
@@ -41,7 +49,7 @@ module Api
       end
 
       def model_params
-        params.require(:model).permit(:name, :product_line_id, specifications: {})
+        params.require(:model).permit(:name, :description, :product_line_id, specifications: {})
       end
     end
   end
