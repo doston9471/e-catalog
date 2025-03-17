@@ -5,6 +5,8 @@ class Api::V1::ModelsControllerTest < ActionDispatch::IntegrationTest
     @brand = create(:brand)
     @product_line = create(:product_line, brand: @brand)
     @model = create(:model, product_line: @product_line)
+    @shop = create(:shop)
+    create(:item, model: @model, shop: @shop)
   end
 
   test "should get index" do
@@ -49,6 +51,8 @@ class Api::V1::ModelsControllerTest < ActionDispatch::IntegrationTest
     response_body = JSON.parse(response.body)
     assert_equal @model.name, response_body["name"]
     assert_includes response_body.keys, "items"
+    assert response_body["items"].is_a?(Array)
+    assert_equal 1, response_body["items"].size
   end
 
   test "should update model" do

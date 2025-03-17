@@ -10,14 +10,15 @@ module Api
             page: params[:page],
             per_page: params[:per_page]
           )
-          render json: result
+          serialized_data = ProductLineSerializer.serialize_collection(result[:data])
+          render json: { data: serialized_data, meta: result[:meta] }
         rescue => e
           render json: { error: "Pagination error: #{e.message}" }, status: :unprocessable_entity
         end
       end
 
       def show
-        render json: @product_line, include: :models
+        render json: ProductLineSerializer.new(@product_line).as_json
       end
 
       def create
