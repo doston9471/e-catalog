@@ -1,6 +1,10 @@
 require "test_helper"
 
 class ProductLineTest < ActiveSupport::TestCase
+  setup do
+    Brand.delete_all
+  end
+
   test "should not save product_line without name" do
     product_line = ProductLine.new
     assert_not product_line.save, "Saved the product_line without a name"

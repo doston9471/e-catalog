@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :model do
-    name { "Model #{rand(1000)}" }
-    # Add product_line association if required
+    sequence(:name) { |n| "Model #{n}" }
+    product_line { create(:product_line) }
   end
 end
