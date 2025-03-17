@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :shop do
-    sequence(:name) { |n| "Shop #{n}" }
-    website_url { "http://shop#{rand(1000)}.com" }
+    sequence(:name) { |n| "Shop #{n} #{Time.current.to_i}" }
+    website_url { "http://test.com" }
   end
 end

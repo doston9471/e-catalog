@@ -29,3 +29,7 @@ end
 gem "mongoid"
 
 gem "ostruct", "~> 0.6.1"
+
+group :test do
+  gem "database_cleaner-mongoid"
+end
