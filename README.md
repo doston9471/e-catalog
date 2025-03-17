@@ -31,6 +31,18 @@ Make sure MongoDB is running locally or set the `MONGODB_URL` environment variab
 rails server
 ```
 
+## Development
+
+### Running Tests
+```bash
+rails test
+```
+
+### Running RuboCop
+```bash
+bundle exec rubocop
+```
+
 ## API Endpoints
 
 ### Brands
@@ -68,6 +80,40 @@ rails server
 - `PATCH /api/v1/items/:id` - Update an item
 - `DELETE /api/v1/items/:id` - Delete an item
 
+## Pagination
+All index endpoints support custom pagination with the following parameters:
+
+- `page`: The page number to retrieve (default: 1, minimum: 1).
+- `per_page`: Number of items per page (default: 10, minimum: 1, maximum: 100).
+
+### Pagination Response Format
+The response includes:
+
+- `data`: Array of paginated records.
+- `meta`: Metadata about the pagination:
+  - `total_pages`: Total number of pages.
+  - `current_page`: Current page number.
+  - `total_count`: Total number of records.
+  - `per_page`: Number of records per page.
+
+### Example Paginated Response
+```json
+{
+  "data": [
+    {"id": "1", "name": "Apple", "description": "Consumer electronics company"},
+    {"id": "2", "name": "Samsung", "description": "Tech conglomerate"},
+    ...,
+    {"id": "10", "name": "Sony", "description": "Japan's electronics company"}
+  ],
+  "meta": {
+    "total_pages": 5,
+    "current_page": 1,
+    "total_count": 50,
+    "per_page": 10
+  }
+}
+```
+
 ## API Examples
 
 Here are some example CURL requests to test the API endpoints:
@@ -77,6 +123,12 @@ Here are some example CURL requests to test the API endpoints:
 ```bash
 # List all brands
 curl http://localhost:3000/api/v1/brands
+
+# List all brands (paginated, page 1, 10 per page)
+curl "http://localhost:3000/api/v1/brands?page=1&per_page=10"
+
+# List brands, page 2
+curl "http://localhost:3000/api/v1/brands?page=2&per_page=10"
 
 # Create a brand
 curl -X POST http://localhost:3000/api/v1/brands \
@@ -106,10 +158,22 @@ curl -X POST http://localhost:3000/api/v1/product_lines \
 # List product lines
 curl http://localhost:3000/api/v1/product_lines
 
+# List all product lines (paginated, page 1, 10 per page)
+curl "http://localhost:3000/api/v1/product_lines?page=1&per_page=10"
+
+# List product_lines, page 2
+curl "http://localhost:3000/api/v1/product_lines?page=2&per_page=10"
+
+# Get a specific product line
+curl http://localhost:3000/api/v1/product_lines/PRODUCT_LINE_ID
+
 # Update a product line
 curl -X PATCH http://localhost:3000/api/v1/product_lines/PRODUCT_LINE_ID \
   -H "Content-Type: application/json" \
   -d '{"product_line": {"category": "Mobile Devices"}}'
+
+# Delete a product_line
+curl -X DELETE http://localhost:3000/api/v1/product_lines/PRODUCT_LINE_ID
 ```
 
 ### Models
@@ -133,6 +197,15 @@ curl -X POST http://localhost:3000/api/v1/models \
 # List models
 curl http://localhost:3000/api/v1/models
 
+# List all models (paginated, page 1, 10 per page)
+curl "http://localhost:3000/api/v1/models?page=1&per_page=10"
+
+# List models, page 2
+curl "http://localhost:3000/api/v1/models?page=2&per_page=10"
+
+# Get a specific model
+curl http://localhost:3000/api/v1/models/MODEL_ID
+
 # Update a model
 curl -X PATCH http://localhost:3000/api/v1/models/MODEL_ID \
   -H "Content-Type: application/json" \
@@ -143,6 +216,9 @@ curl -X PATCH http://localhost:3000/api/v1/models/MODEL_ID \
       }
     }
   }'
+
+# Delete a model
+curl -X DELETE http://localhost:3000/api/v1/models/MODEL_ID
 ```
 
 ### Shops
@@ -156,10 +232,22 @@ curl -X POST http://localhost:3000/api/v1/shops \
 # List shops
 curl http://localhost:3000/api/v1/shops
 
+# List all shops (paginated, page 1, 10 per page)
+curl "http://localhost:3000/api/v1/shops?page=1&per_page=10"
+
+# List shops, page 2
+curl "http://localhost:3000/api/v1/shops?page=2&per_page=10"
+
+# Get a specific shop
+curl http://localhost:3000/api/v1/shops/SHOP_ID
+
 # Update a shop
 curl -X PATCH http://localhost:3000/api/v1/shops/SHOP_ID \
   -H "Content-Type: application/json" \
   -d '{"shop": {"website_url": "https://new-istore.example.com"}}'
+
+# Delete a shop
+curl -X DELETE http://localhost:3000/api/v1/shops/SHOP_ID
 ```
 
 ### Items
@@ -192,6 +280,15 @@ curl -X POST http://localhost:3000/api/v1/items \
 # List items
 curl http://localhost:3000/api/v1/items
 
+# List all items (paginated, page 1, 10 per page)
+curl "http://localhost:3000/api/v1/items?page=1&per_page=10"
+
+# List items, page 2
+curl "http://localhost:3000/api/v1/items?page=2&per_page=10"
+
+# Get a specific item
+curl http://localhost:3000/api/v1/items/ITEM_ID
+
 # Update an item
 curl -X PATCH http://localhost:3000/api/v1/items/ITEM_ID \
   -H "Content-Type: application/json" \
@@ -205,6 +302,9 @@ curl -X PATCH http://localhost:3000/api/v1/items/ITEM_ID \
       ]
     }
   }'
+
+# Delete a item
+curl -X DELETE http://localhost:3000/api/v1/items/ITEM_ID
 ```
 
 Note: Replace `BRAND_ID`, `PRODUCT_LINE_ID`, `MODEL_ID`, `SHOP_ID`, and `ITEM_ID` with actual IDs from your database.
@@ -224,6 +324,7 @@ Note: Replace `BRAND_ID`, `PRODUCT_LINE_ID`, `MODEL_ID`, `SHOP_ID`, and `ITEM_ID
 
 ### Model
 - name (string, required)
+- description (string)
 - specifications (hash)
 - belongs to product line
 
@@ -237,18 +338,6 @@ Note: Replace `BRAND_ID`, `PRODUCT_LINE_ID`, `MODEL_ID`, `SHOP_ID`, and `ITEM_ID
 - prices (array of price objects)
 - belongs to shop
 - belongs to model
-
-## Development
-
-### Running Tests
-```bash
-rails test
-```
-
-### Running RuboCop
-```bash
-bundle exec rubocop
-```
 
 ## CI/CD
 
