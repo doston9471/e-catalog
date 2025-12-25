@@ -78,7 +78,7 @@ GEM
     ast (2.4.2)
     base64 (0.3.0)
     bigdecimal (4.0.1)
-    brakeman (7.1.1)
+    brakeman (7.1.2)
       racc
     bson (5.1.1)
     builder (3.3.0)
